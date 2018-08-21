@@ -69,11 +69,14 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                 'view'    => array( $this, 'dokan_setup_store' ),
                 'handler' => array( $this, 'dokan_setup_store_save' ),
             ),
+//comentare el step del paymente a ver si eso cambia o envia directamente a completar la tienda
+/**
             'payment' => array(
                 'name'    =>  __( 'Payment', 'dokan-lite' ),
                 'view'    => array( $this, 'dokan_setup_payment' ),
                 'handler' => array( $this, 'dokan_setup_payment_save' ),
             ),
+*/
             'next_steps' => array(
                 'name'    =>  __( 'Ready!', 'dokan-lite' ),
                 'view'    => array( $this, 'dokan_setup_ready' ),
@@ -260,7 +263,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                         </select>
                     </td>
                 </tr>
-                
+
                 <!-- Departamento -->
                 <tr>
                     <th scope="row"><label for="calc_shipping_state"><?php _e( 'State', 'dokan-lite' ); ?> *</label></th>
@@ -313,66 +316,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                 <?php do_action( 'dokan_seller_wizard_store_setup_field', $this ); ?>
 
             </table>
-           <!-- <table class="form-table">
-                <tr>
-                    <th scope="row"><label for="store_ppp"><?php _e( 'Store Product Per Page', 'dokan-lite' ); ?>  *</label></th>
-                    <td>
-                        <input type="text" id="store_ppp" name="store_ppp" value="<?php echo $store_ppp; ?>" required />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street', 'dokan-lite' ); ?> *</label></th>
-                    <td>
-                        <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo $address_street1; ?>" required />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street 2', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo $address_street2; ?>" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row"><label for="address[city]"><?php _e( 'City', 'dokan-lite' ); ?> *</label></th>
-                    <td>
-                        <input type="text" id="address[city]" name="address[city]" value="<?php echo $address_city; ?>" required />
-                    </td>
-                </tr>
-
-		<tr>
-                    <th scope="row"><label for="address[zip]"><?php _e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <input type="text" id="address[zip]" name="address[zip]" value="<?php echo $address_zip; ?>" />
-                    </td>
-		</tr>
-                <tr>
-                    <th scope="row"><label for="address[country]"><?php _e( 'Country', 'dokan-lite' ); ?> *</label></th>
-                    <td>
-                        <select name="address[country]" class="wc-enhanced-select country_to_state" id="address[country]" required>
-                            <?php dokan_country_dropdown( $countries, $address_country, false ); ?>
-                        </select>
-                    </td>
-                </tr>
-                    <th scope="row"><label for="calc_shipping_state"><?php _e( 'State', 'dokan-lite' ); ?> *</label></th>
-                    <td>
-                        <input type="text" id="calc_shipping_state" name="address[state]" value="<?php echo $address_state; ?>"  placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>" required / >
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><label for="show_email"><?php _e( 'Email', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <input type="checkbox" name="show_email" id="show_email" class="input-checkbox" value="1" <?php echo ( $show_email == 'yes' ) ? 'checked="checked"' : ''; ?>/>
-                        <label for="show_email"><?php _e( 'Show email address in store', 'dokan-lite' ); ?></label>
-                    </td>
-                </tr>
-
-                <?php do_action( 'dokan_seller_wizard_store_setup_field', $this ); ?>
-
-            </table> -->
-            <p class="wc-setup-actions step">
+		            <p class="wc-setup-actions step">
                 <input type="submit" class="button-primary button button-large button-next store-step-continue" value="<?php esc_attr_e( 'Continue', 'dokan-lite' ); ?>" name="save_step" />
                 <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next store-step-skip-btn"><?php _e( 'Skip this step', 'dokan-lite' ); ?></a>
                 <?php wp_nonce_field( 'dokan-seller-setup' ); ?>
@@ -446,7 +390,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                     }
 
                     $( document.body ).trigger( 'country_to_state_changing', [country, $wrapper ] );
-                    $('.wc-enhanced-select').select2();
+                   $('.wc-enhanced-select').select2();
                 });
 
                 $( ':input.country_to_state' ).change();
@@ -456,7 +400,8 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
         </script>
         <?php
 
-        do_action( 'dokan_seller_wizard_after_store_setup_form', $this );
+        //do_action( 'dokan_seller_wizard_after_store_setup_form', $this );
+	do_action( 'dokan_seller_wizard_after_store_setup_form', $this );
     }
 
     /**
@@ -478,12 +423,25 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
         do_action( 'dokan_seller_wizard_store_field_save', $this );
 
         wp_redirect( esc_url_raw( $this->get_next_step_link() ) );
+	
+
+	//ejecutare directamente el redireccionamiento de boton save payment 
+	// aver si saltata directamente a completar tienda 
+	//traje estas acciones del boton de save "payment"
+	do_action( 'dokan_seller_wizard_payment_field_save', $this );
+
+        wp_redirect( apply_filters( 'dokan_ww_payment_redirect',esc_url_raw( $this->get_next_step_link() ) ) );
+	//
+
         exit;
     }
 
     /**
      * payment step.
      */
+
+		 
+	/** 
     public function dokan_setup_payment() {
         $methods    = dokan_withdraw_get_active_methods();
         $store_info = $this->store_info;
@@ -517,14 +475,19 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                 <?php wp_nonce_field( 'dokan-seller-setup' ); ?>
             </p>
         </form>
+		 
         <?php
 
         do_action( 'dokan_seller_wizard_after_payment_setup_form', $this );
     }
+*/
 
     /**
      * Save payment options.
      */
+		
+/**
+
     public function dokan_setup_payment_save() {
         if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'dokan-seller-setup' ) ) {
             return;
@@ -565,10 +528,12 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
         wp_redirect( apply_filters( 'dokan_ww_payment_redirect',esc_url_raw( $this->get_next_step_link() ) ) );
         exit;
     }
-
+*/
+		
     /**
      * Final step.
      */
+
     public function dokan_setup_ready() {
         $dashboard_url = dokan_get_navigation_url();
         ?>
