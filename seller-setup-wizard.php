@@ -242,35 +242,112 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
         ?>
         <h1><?php _e( 'Store Setup', 'dokan-lite' ); ?></h1>
         <form method="post" class="dokan-seller-setup-form">
-            <table class="form-table">
-                <tr>
+	<table class="form-table">
+                <!-- productos por tienda -->
+                <!-- <tr>
                     <th scope="row"><label for="store_ppp"><?php _e( 'Store Product Per Page', 'dokan-lite' ); ?>  *</label></th>
                     <td>
                         <input type="text" id="store_ppp" name="store_ppp" value="<?php echo $store_ppp; ?>" required />
                     </td>
-                </tr>
+                </tr> -->
+
+                <!-- pais -->
                 <tr>
-                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street', 'dokan-lite' ); ?> *</label></th>
+                    <th scope="row"><label for="address[country]"><?php _e( 'Country', 'dokan-lite' ); ?> *</label></th>
                     <td>
-                        <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo $address_street1; ?>" required />
+                        <select name="address[country]" class="wc-enhanced-select country_to_state" id="address[country]" required>
+                            <?php dokan_country_dropdown( $countries, $address_country, false ); ?>
+                        </select>
                     </td>
                 </tr>
+                
+                <!-- Departamento -->
                 <tr>
-                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street 2', 'dokan-lite' ); ?></label></th>
+                    <th scope="row"><label for="calc_shipping_state"><?php _e( 'State', 'dokan-lite' ); ?> *</label></th>
                     <td>
-                        <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo $address_street2; ?>" />
+                        <input type="text" id="calc_shipping_state" name="address[state]" value="<?php echo $address_state; ?>"  placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>" required / >
                     </td>
                 </tr>
+
+                <!-- ciudad -->
                 <tr>
                     <th scope="row"><label for="address[city]"><?php _e( 'City', 'dokan-lite' ); ?> *</label></th>
                     <td>
                         <input type="text" id="address[city]" name="address[city]" value="<?php echo $address_city; ?>" required />
                     </td>
                 </tr>
+
+                <!-- direccion 1 -->
+                <tr>
+                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street', 'dokan-lite' ); ?> *</label></th>
+                    <td>
+                        <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo $address_street1; ?>" required />
+                    </td>
+                </tr>
+
+                <!-- direccion 2 -->
+                <tr>
+                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street 2', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo $address_street2; ?>" />
+                    </td>
+                </tr>
+
+
+                <!-- zip code -->
+                <tr>
                     <th scope="row"><label for="address[zip]"><?php _e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="address[zip]" name="address[zip]" value="<?php echo $address_zip; ?>" />
                     </td>
+                </tr>                    
+                <!-- Email check -->
+                <tr>
+                    <th scope="row"><label for="show_email"><?php _e( 'Email', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="checkbox" name="show_email" id="show_email" class="input-checkbox" value="1" <?php echo ( $show_email == 'yes' ) ? 'checked="checked"' : ''; ?>/>
+                        <label for="show_email"><?php _e( 'Show email address in store', 'dokan-lite' ); ?></label>
+                    </td>
+                </tr>
+
+                <?php do_action( 'dokan_seller_wizard_store_setup_field', $this ); ?>
+
+            </table>
+           <!-- <table class="form-table">
+                <tr>
+                    <th scope="row"><label for="store_ppp"><?php _e( 'Store Product Per Page', 'dokan-lite' ); ?>  *</label></th>
+                    <td>
+                        <input type="text" id="store_ppp" name="store_ppp" value="<?php echo $store_ppp; ?>" required />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street', 'dokan-lite' ); ?> *</label></th>
+                    <td>
+                        <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo $address_street1; ?>" required />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street 2', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo $address_street2; ?>" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="address[city]"><?php _e( 'City', 'dokan-lite' ); ?> *</label></th>
+                    <td>
+                        <input type="text" id="address[city]" name="address[city]" value="<?php echo $address_city; ?>" required />
+                    </td>
+                </tr>
+
+		<tr>
+                    <th scope="row"><label for="address[zip]"><?php _e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="text" id="address[zip]" name="address[zip]" value="<?php echo $address_zip; ?>" />
+                    </td>
+		</tr>
                 <tr>
                     <th scope="row"><label for="address[country]"><?php _e( 'Country', 'dokan-lite' ); ?> *</label></th>
                     <td>
@@ -294,7 +371,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
 
                 <?php do_action( 'dokan_seller_wizard_store_setup_field', $this ); ?>
 
-            </table>
+            </table> -->
             <p class="wc-setup-actions step">
                 <input type="submit" class="button-primary button button-large button-next store-step-continue" value="<?php esc_attr_e( 'Continue', 'dokan-lite' ); ?>" name="save_step" />
                 <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next store-step-skip-btn"><?php _e( 'Skip this step', 'dokan-lite' ); ?></a>
