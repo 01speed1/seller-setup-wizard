@@ -69,7 +69,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                 'view'    => array( $this, 'dokan_setup_store' ),
                 'handler' => array( $this, 'dokan_setup_store_save' ),
             ),
-//comentare el step del paymente a ver si eso cambia o envia directamente a completar la tienda
+//comentare el step del payment a ver si eso cambia o envia directamente a completar la tienda
 /**
             'payment' => array(
                 'name'    =>  __( 'Payment', 'dokan-lite' ),
@@ -197,16 +197,21 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
     /**
      * Setup Wizard Footer.
      */
+	
+// esto ocultara el enlace del final 
+
     public function setup_wizard_footer() {
         ?>
             <?php if ( 'next_steps' === $this->step ) : ?>
-                <a class="wc-return-to-dashboard" href="<?php echo esc_url( site_url() ); ?>"><?php _e( 'Return to the Marketplace', 'dokan-lite' ); ?></a>
-            <?php endif; ?>
+               <!-- <a class="wc-return-to-dashboard" href="<?php echo esc_url( site_url() ); ?>"><?php _e( 'Return to the Marketplace', 'dokan-lite' ); ?></a>
+		--> 
+	<?php endif; ?>
             </body>
         </html>
         <?php
     }
 
+		
     /**
      * Introduction step.
      */
@@ -218,8 +223,11 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
         <p><?php _e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the Store!', 'dokan-lite' ); ?></p>
         <p class="wc-setup-actions step">
             <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next lets-go-btn"><?php _e( 'Let\'s Go!', 'dokan-lite' ); ?></a>
-            <a href="<?php echo esc_url( $dashboard_url ); ?>" class="button button-large not-right-now-btn"><?php _e( 'Not right now', 'dokan-lite' ); ?></a>
-        </p>
+        <!--ocultar el boton de saltar este paso -->
+	<!--  
+	 <a href="<?php echo esc_url( $dashboard_url ); ?>" class="button button-large not-right-now-btn"><?php _e( 'Not right now', 'dokan-lite' ); ?></a>
+        -->
+	</p>
         <?php
         do_action( 'dokan_seller_wizard_introduction', $this );
     }
@@ -304,7 +312,8 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                         <input type="text" id="address[zip]" name="address[zip]" value="<?php echo $address_zip; ?>" />
                     </td>
                 </tr>                    
-                <!-- Email check -->
+                <!-- Email check  ocultar/ sin utilidad -->
+		<!--
                 <tr>
                     <th scope="row"><label for="show_email"><?php _e( 'Email', 'dokan-lite' ); ?></label></th>
                     <td>
@@ -312,13 +321,17 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
                         <label for="show_email"><?php _e( 'Show email address in store', 'dokan-lite' ); ?></label>
                     </td>
                 </tr>
-
+		-->
                 <?php do_action( 'dokan_seller_wizard_store_setup_field', $this ); ?>
 
             </table>
 		            <p class="wc-setup-actions step">
                 <input type="submit" class="button-primary button button-large button-next store-step-continue" value="<?php esc_attr_e( 'Continue', 'dokan-lite' ); ?>" name="save_step" />
-                <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next store-step-skip-btn"><?php _e( 'Skip this step', 'dokan-lite' ); ?></a>
+               
+		<!-- ocultar el boton de saltar este paso  -->
+		<!--
+		 <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next store-step-skip-btn"><?php _e( 'Skip this step', 'dokan-lite' ); ?></a>
+		-->
                 <?php wp_nonce_field( 'dokan-seller-setup' ); ?>
             </p>
         </form>
