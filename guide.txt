@@ -1,0 +1,6 @@
+main url for seller-setup-wizard.php 
+
+server: 
+/var/www/html/wp-content/plugins/dokan-lite/classes
+
+cambiar el seller-setup-wizard.php de esta carpeta por el que esta ubicado en la carpeta del servidor
