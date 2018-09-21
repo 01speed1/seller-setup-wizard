@@ -282,7 +282,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
 
                 <!-- Departamento -->
                 <tr>
-                    <th scope="row"><label for="calc_shipping_state"><?php _e( 'State', 'dokan-lite' ); ?> *</label></th>
+                    <th scope="row"><label for="calc_shipping_state"><?php _e( 'State/County or state code', 'dokan-lite' ); ?> *</label></th>
                     <td>
                         <input type="text" id="calc_shipping_state" name="address[state]" value="<?php echo $address_state; ?>"  placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>" required / >
                     </td>
@@ -298,7 +298,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
 
                 <!-- direccion 1 -->
                 <tr>
-                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street', 'dokan-lite' ); ?> *</label></th>
+                    <th scope="row"><label for="address[street_1]"><?php _e( 'Street address', 'dokan-lite' ); ?> *</label></th>
                     <td>
                         <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo $address_street1; ?>" required />
                     </td>
@@ -306,7 +306,7 @@ class Dokan_Seller_Setup_Wizard extends Dokan_Setup_Wizard {
 
                 <!-- direccion 2 -->
                 <tr>
-                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street 2', 'dokan-lite' ); ?></label></th>
+                    <th scope="row"><label for="address[street_2]"><?php _e( 'Street address 2', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo $address_street2; ?>" />
                     </td>

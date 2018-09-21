@@ -43,12 +43,24 @@ add_action( 'wp_enqueue_scripts', 'chld_thm_cfg_parent_css', 10 );
 
 
 /**
+ * Configuracion adicional para la conexion con Sentry
+ * @author Oscar Guzman - Procibernetica
+ *
+ */
+
+$client = new Raven_Client('https://6c81a5871bcd4d89bca00b10630f31fe@sentry.io/1275465');
+$error_handler = new Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction(); 
+
+/**
  * Custom EndPoint to get Dokan Vendor Info with Order_id
  * @author Oscar Guzman - Procibernetica
  *
  */
 
-/*  // function to get Vendor Info
+  // function to get Vendor Info
  function custom_dokan_vendor_info_by_order_id( $data ){
 	# code...
 	$vendor_id = dokan_get_seller_id_by_order( $data['id'] );
@@ -68,9 +80,8 @@ add_action( 'wp_enqueue_scripts', 'chld_thm_cfg_parent_css', 10 );
 	return $res;
 
 }
- */
 
-/* //add api URL
+ //add api URL
 function custom_vendor_info_route (){
 	# code...
 	register_rest_route( 'custom/v1', '/vendor/order/(?P<id>\d+)', array(
@@ -85,11 +96,11 @@ function custom_vendor_info_route (){
 			)
 		)
  	));
-} */
+} 
 
-/* //add api endpoint 
+//add api endpoint 
 add_action( 'rest_api_init', 'custom_vendor_info_route' );
- */
+ 
 
 /**
  * Custom EndPoint to get new Dokan Vendors
@@ -101,7 +112,7 @@ add_action( 'rest_api_init', 'custom_vendor_info_route' );
 function custom_wp_users(){
 	# code...
 	$args = array(
-		'number' => 5,
+		'number' => 100,
 		'orderby' => 'registered',
 		'order' => 'DESC',
 		'role' => 'seller' );
@@ -117,11 +128,12 @@ function custom_wp_users(){
 		$tempUser = array(
 		'id' => $user->id,
 		'store_name' => $vendor_user['store_name'],
-		'street_1' => $vendor_user['address']['street_1'],
-		'city' => $vendor_user['address']['city'],
+		'street_1' => ( is_array($vendor_user['address']) && isset($vendor_user['address']['street_1']) ) ?  $vendor_user['address']['street_1'] : '',
+		'city' =>  ( is_array($vendor_user['address'])&& isset($vendor_user['address']['city']) ) ? $vendor_user['address']['city'] : '',
 		'phone' => $vendor_user['phone'],
 		'email' => $user->user_email,
-		'name' => $user->display_name
+		'name' => $user->display_name,
+		'registred' => $user->user_registered
 		);
 
 		$sellers[] = $tempUser;
@@ -145,7 +157,8 @@ add_action( 'rest_api_init', 'custom_wp_users_route');
 
 //************************TESTING*************************** */
 
-//funcion de prueba, si ves esto por fa borrarolo :3 
+//funcion de prueba, si ves esto por fa NO Borrar :3 
+// retornar metadata
 function custom_wp_meta_user($data){
 	# code...
 	/* $args = array(
@@ -178,5 +191,90 @@ function custom_wp_users_all_route(){
 
 add_action( 'rest_api_init', 'custom_wp_users_all_route');
 
+/*************************************************************** */
+
+// fun de prueba para resolver illegal strg
+/* function custom_wp_users_t(){
+	# code...
+	$args = array(
+		'number' => 100,
+		'orderby' => 'registered',
+		'order' => 'DESC',
+		'role' => 'seller' );
+
+	$users =  get_users($args);
+
+	$sellers = array();
+	foreach ($users as $user) {
+
+		$vendor_user = dokan_get_store_info( $user->id );
+		$tempUser = array();
+
+		$tempUser = array(
+		'id' => $user->id,
+		'store_name' => $vendor_user['store_name'],
+		'street_1' => ( is_array($vendor_user['address']) && isset($vendor_user['address']['street_1']) ) ?  $vendor_user['address']['street_1'] : '',
+		'city' =>  ( is_array($vendor_user['address'])&& isset($vendor_user['address']['city']) ) ? $vendor_user['address']['city'] : '',
+		'phone' => $vendor_user['phone'],
+		'email' => $user->user_email,
+		'name' => $user->display_name,
+		'registred' => $user->user_registered
+		);
+
+		$sellers[] = $tempUser;
+		
+	}
+	
+	return $sellers;
+}
+
+//2. add api URL
+function custom_wp_users_route_test(){
+	# code...
+	register_rest_route( 'custom/v1', '/users-test', array(
+		'methods'	=> 'GET',
+		'callback' 	=> 'custom_wp_users_t'
+ 	));
+}
+
+//3. add api endpoint 
+add_action( 'rest_api_init', 'custom_wp_users_route_test');
+ */
+
+ /***************************************************************** */
+// **Pasar el id y enviar los productos **
+function custom_wp_products_by_id($data){
+	$user_id = $data['id'];
+
+	$args = array( 
+	'post_type' => 'product', //????
+	//'post_status' => 'publish',
+	'author' => $user_id );
+	
+	$current_user_posts = get_posts( $args );
+	/* $products = array();
+	foreach ($post as $current_user_posts  ) {
+		$products[] = wc_get_product($post->get_id());
+	} */
+
+	
+	return $current_user_posts;
+}
+//
+function custom_wp_products_by_id_test(){
+	# code...
+	register_rest_route( 'custom/v1', '/user/(?P<id>\d+)/products', array(
+		'methods'	=> 'GET',
+		'callback' 	=> 'custom_wp_products_by_id'
+ 	));
+}
+
+//
+add_action( 'rest_api_init', 'custom_wp_products_by_id_test');
+
+
 
 /**END testin**************** */
+
+
+
